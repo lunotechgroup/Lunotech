@@ -67,15 +67,7 @@
 }
 
 // Initialize the countdown timer
-let savedDate = localStorage.getItem("countdownTargetDate");
-let targetDate;
-if (savedDate) {
-    targetDate = new Date(savedDate);
-} else {
-    targetDate = new Date();
-    targetDate.setDate(targetDate.getDate() + 30); // Set your desired countdown length
-    localStorage.setItem("countdownTargetDate", targetDate.toISOString());
-}
+const targetDate = new Date("2025-07-05T00:00:00"); // تاریخ پایان: 5 جولای 2025
 const countdownElements = {
     days: document.getElementById('days'),
     hours: document.getElementById('hours'),
@@ -85,7 +77,6 @@ const countdownElements = {
 
 const countdown = new CountdownTimer(targetDate, countdownElements);
 countdown.start();
-
 document.addEventListener('countdownComplete', () => {
     console.log('Countdown complete!');
 });
