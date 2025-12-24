@@ -1,6 +1,9 @@
+/* Lunotech/static/js/script.js */
+
 /**
  * Lunotech - Core Application Script
- * Optimized Architecture
+ * Optimized Architecture: Global UI & I18N only.
+ * 3D Logic moved to home.js
  */
 
 // ==========================================
@@ -118,146 +121,7 @@ const I18N = {
   };
   
   // ==========================================
-  // 2. Three.js Scene (Visuals)
-  // ==========================================
-  class LunarExplorer {
-    constructor() {
-      this.init();
-    }
-  
-    init() {
-      this.container = document.getElementById("canvas-container");
-      if (!this.container) return;
-  
-      this.scene = new THREE.Scene();
-      this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-      this.camera.position.set(0, 0, 6);
-  
-      this.renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      this.renderer.setSize(window.innerWidth, window.innerHeight);
-      this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2)); // Optimize pixel ratio
-      this.renderer.shadowMap.enabled = true;
-      this.container.appendChild(this.renderer.domElement);
-  
-      // Loaders
-      this.manager = new THREE.LoadingManager();
-      this.manager.onLoad = () => this.onAssetsLoaded();
-      this.manager.onProgress = (url, loaded, total) => {
-        const bar = document.getElementById("loading-bar");
-        if (bar) bar.style.width = `${(loaded / total) * 100}%`;
-      };
-      
-      this.textureLoader = new THREE.TextureLoader(this.manager);
-  
-      this.createLights();
-      this.createStars();
-      this.loadObjects();
-      
-      this.animate = this.animate.bind(this);
-      window.addEventListener('resize', () => this.onResize());
-      
-      this.animate();
-    }
-  
-    createLights() {
-      const ambient = new THREE.AmbientLight(0xffffff, 0.2);
-      this.scene.add(ambient);
-      const dirLight = new THREE.DirectionalLight(0xffffff, 1);
-      dirLight.position.set(5, 5, 5);
-      dirLight.castShadow = true;
-      this.scene.add(dirLight);
-    }
-  
-    createStars() {
-      const geometry = new THREE.BufferGeometry();
-      const count = 5000; // Optimized count
-      const positions = new Float32Array(count * 3);
-      for(let i=0; i<count*3; i++) {
-        positions[i] = (Math.random() - 0.5) * 1000;
-      }
-      geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      const material = new THREE.PointsMaterial({ size: 1, color: 0xffffff, transparent: true });
-      this.stars = new THREE.Points(geometry, material);
-      this.scene.add(this.stars);
-    }
-  
-    loadObjects() {
-      // Moon
-      this.textureLoader.load(CONFIG.moonUrl, (tex) => {
-        const geo = new THREE.SphereGeometry(2, 64, 64);
-        const mat = new THREE.MeshStandardMaterial({ map: tex, roughness: 0.8 });
-        this.moon = new THREE.Mesh(geo, mat);
-        this.moon.position.set(0, -3, -1);
-        this.moon.scale.set(0, 0, 0); // Start hidden
-        this.moon.castShadow = true;
-        this.scene.add(this.moon);
-      });
-  
-      // Mountain
-      this.textureLoader.load(CONFIG.mountainUrl, (tex) => {
-        const geo = new THREE.PlaneGeometry(1, 1);
-        const mat = new THREE.MeshBasicMaterial({ map: tex, transparent: true });
-        this.mountain = new THREE.Mesh(geo, mat);
-        this.mountain.position.z = 2; // Closer to camera
-        this.scene.add(this.mountain);
-        this.onResize(); // Initial sizing
-      });
-    }
-  
-    onAssetsLoaded() {
-      // Hide loading screen
-      const screen = document.getElementById("loading-screen");
-      if(screen) {
-        screen.classList.add("hidden");
-        setTimeout(() => screen.style.display = 'none', 500);
-      }
-      
-      // Animate Moon Rise
-      if(this.moon) {
-        gsap.to(this.moon.scale, { x:0.765, y:0.765, z:0.765, duration: 4, ease: "power3.out" });
-        gsap.to(this.moon.position, { y:0, duration: 4, ease: "power3.out" });
-      }
-    }
-  
-    onResize() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      this.camera.aspect = w / h;
-      this.camera.updateProjectionMatrix();
-      this.renderer.setSize(w, h);
-  
-      // Cover logic for mountain
-      if(this.mountain && this.mountain.material.map) {
-          const img = this.mountain.material.map.image;
-          if(!img) return;
-          const imgRatio = img.width / img.height;
-          const viewRatio = w / h;
-          
-          const vFOV = THREE.MathUtils.degToRad(this.camera.fov);
-          // Calculate visible height at the mountain's z-depth (camera z=6, mountain z=2 => dist=4)
-          const dist = 4; 
-          const visibleHeight = 2 * Math.tan(vFOV / 2) * dist;
-          const visibleWidth = visibleHeight * this.camera.aspect;
-  
-          if(viewRatio > imgRatio) {
-              this.mountain.scale.set(visibleWidth, visibleWidth / imgRatio, 1);
-          } else {
-              this.mountain.scale.set(visibleHeight * imgRatio, visibleHeight, 1);
-          }
-          this.mountain.position.y = -visibleHeight/2;
-      }
-    }
-  
-    animate() {
-      requestAnimationFrame(this.animate);
-      if(this.stars) this.stars.rotation.y += 0.0002;
-      if(this.moon) this.moon.rotation.y += 0.001;
-      this.renderer.render(this.scene, this.camera);
-    }
-  }
-  
-  // ==========================================
-  // 3. UI Manager (Lang, Modals, Marquee)
+  // 2. UI Manager (Lang, Modals, Marquee)
   // ==========================================
   class UIManager {
     constructor() {
@@ -418,6 +282,5 @@ const I18N = {
   // Initialization
   // ==========================================
   document.addEventListener("DOMContentLoaded", () => {
-    new LunarExplorer();
     new UIManager();
   });
