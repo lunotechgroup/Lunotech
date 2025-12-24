@@ -1,0 +1,9 @@
+Django==5.0.3
+dj-database-url
+django-tinymce==4.1.0
+gunicorn
+psycopg2-binary
+Pillow>=10.4.0
+whitenoise
+python-dotenv
+redis

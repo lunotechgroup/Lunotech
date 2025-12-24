@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Lunotech - Blog{% endblock %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="main-container-blog">
+    <section class="hero-section-blog">
+        <h1 class="grok-blog-main-title">
+            <span class="lang-fa">بینش و داستان‌های تکنولوژی</span>
+            <span class="lang-en">Tech Insights & Stories</span>
+        </h1>
+    </section>
+
+    <section class="search-filter-section">
+        <form action="{% url 'blog_list' %}" method="GET" class="search-form">
+            <div class="search-container">
+                <input type="text" name="q" class="search-input" 
+                       placeholder="Search / جستجو ..." 
+                       value="{{ request.GET.q|default:'' }}">
+            </div>
+        </form>
+    </section>
+
+    <section class="blog-grid" id="blogGrid">
+        {% for post in posts %}
+        <article class="blog-card" data-id="{{ post.id }}">
+            {% if post.image %}
+                <img src="{{ post.image.url }}" alt="{{ post.title_en }}" class="blog-image" loading="lazy">
+            {% endif %}
+
+            <div class="blog-content">
+                <div class="blog-meta">
+                    {% if post.category %}
+                    <span class="blog-category">
+                        <span class="lang-en">{{ post.category.name_en }}</span>
+                        <span class="lang-fa">{{ post.category.name_fa }}</span>
+                    </span>
+                    {% endif %}
+                </div>
+
+                <h3 class="blog-title">
+                    <a href="{{ post.get_absolute_url }}">
+                        <span class="lang-fa">{{ post.title_fa }}</span>
+                        <span class="lang-en">{{ post.title_en }}</span>
+                    </a>
+                </h3>
+
+                <p class="blog-excerpt">
+                    <span class="lang-fa">{{ post.subtitle_fa|truncatechars:120 }}</span>
+                    <span class="lang-en">{{ post.subtitle_en|truncatechars:120 }}</span>
+                </p>
+
+                <div class="blog-footer">
+                    <span>{{ post.date|date:"Y-m-d" }}</span>
+                    
+                    <button class="share-btn" data-id="{{ post.id }}" aria-label="Share">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                            <polyline points="16,6 12,2 8,6"></polyline>
+                            <line x1="12" y1="2" x2="12" y2="15"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </article>
+        {% empty %}
+        <div class="no-results">
+            <p class="lang-fa">هیچ مقاله‌ای یافت نشد.</p>
+            <p class="lang-en">No articles found.</p>
+        </div>
+        {% endfor %}
+    </section>
+
+    <div class="load-more-container">
+        <button class="load-more-btn" id="loadMoreBtn">
+            <span class="lang-fa">بارگذاری بیشتر</span>
+            <span class="lang-en">Load More Articles</span>
+        </button>
+    </div>
+</div>
+{% endblock %}
+
+{% block body_extra %}
+  <script src="{% static 'js/blog.js' %}"></script>
+{% endblock %}

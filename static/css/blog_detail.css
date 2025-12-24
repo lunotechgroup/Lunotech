@@ -1,0 +1,148 @@
+/* Lunotech/static/css/blog_detail.css */
+
+.blog-detail-page {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 8rem 1rem 4rem; /* Top padding clears fixed header */
+}
+
+/* Article Header */
+.article-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.category-tag {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.article-title {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.author-meta {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* Hero Image */
+.hero-image {
+  width: 100%;
+  border-radius: 1rem;
+  overflow: hidden;
+  margin-bottom: 3rem;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Content Typography */
+.article-content {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.125rem;
+  line-height: 1.8;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.article-content p { margin-bottom: 1.5rem; }
+.article-content h2 { font-size: 1.75rem; margin-top: 2.5rem; margin-bottom: 1rem; color: white; }
+.article-content ul { margin-bottom: 1.5rem; padding-inline-start: 1.5rem; }
+
+/* Sticky Share Bar */
+.social-share {
+  display: flex; /* Mobile: Horizontal row at bottom */
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.share-title {
+  display: none; /* Hide label on mobile */
+}
+
+.share-icon {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.share-icon:hover {
+  background: white;
+  color: black;
+}
+
+/* Desktop Grid Layout */
+@media (min-width: 1024px) {
+  .blog-detail-page {
+    display: grid;
+    grid-template-columns: 80px 1fr; /* Sidebar | Content */
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* RTL Support for Grid */
+  body[data-lang="fa"] .blog-detail-page {
+    grid-template-columns: 1fr 80px; /* Content | Sidebar */
+  }
+
+  .blog-article {
+    /* If LTR, article is 2nd column. If RTL, article is 1st column. */
+    grid-column: 2; 
+  }
+  body[data-lang="fa"] .blog-article { grid-column: 1; }
+
+  .social-share {
+    grid-column: 1;
+    flex-direction: column;
+    position: sticky;
+    top: 150px;
+    margin-top: 0;
+    border-top: none;
+    padding-top: 0;
+    
+    /* Animation hooks */
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease;
+  }
+
+  body[data-lang="fa"] .social-share { grid-column: 2; }
+
+  .social-share.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .share-title {
+    display: block;
+    text-align: center;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--text-muted);
+  }
+}

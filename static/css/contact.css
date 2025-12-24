@@ -1,0 +1,139 @@
+/* Lunotech/static/css/contact.css */
+
+.contact-section {
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 6rem auto 2rem; /* Added top margin for fixed header */
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+@media (min-width: 1024px) {
+    .contact-grid {
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+    }
+}
+
+/* Common Container Style */
+.contact-form-container,
+.contact-info-container {
+    position: relative;
+    backdrop-filter: blur(24px);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 1.5rem;
+    padding: 2.5rem;
+    transition: transform 0.3s ease;
+    /* Animation Initial State */
+    opacity: 0;
+    transform: translateY(30px);
+}
+
+.contact-form-container:hover,
+.contact-info-container:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+/* Titles */
+.form-title, .info-title {
+    font-size: 1.875rem;
+    font-weight: 600;
+    color: white;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+/* Form Inputs */
+.form-group { margin-bottom: 1.5rem; }
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.875rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.75rem;
+    color: white;
+    font-family: inherit; /* Inherits Vazir/Sans from body */
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #a78bfa;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Submit Button */
+.submit-btn {
+    width: 100%;
+    padding: 1rem;
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: white;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.submit-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.submit-btn:disabled {
+    opacity: 0.7;
+    cursor: wait;
+}
+
+/* Info Items */
+.info-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 1rem;
+}
+
+.info-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 0.5rem;
+}
+
+/* Decorations */
+.corner-tl, .corner-br {
+    position: absolute;
+    width: 5rem;
+    height: 5rem;
+    opacity: 0.5;
+    pointer-events: none;
+}
+.corner-tl { top: 0; left: 0; border-top-left-radius: 1.5rem; background: linear-gradient(to bottom right, rgba(255,255,255,0.2), transparent); }
+.corner-br { bottom: 0; right: 0; border-bottom-right-radius: 1.5rem; background: linear-gradient(to top left, rgba(255,255,255,0.2), transparent); }
+
+/* Animation Utility (Triggered by JS) */
+.is-visible {
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}

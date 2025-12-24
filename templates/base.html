@@ -1,0 +1,118 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content="Lunotech: Innovation beyond the digital frontier.">
+    
+    <title>{% block title %}Lunotech{% endblock %}</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@100..900&display=swap" rel="stylesheet"/>
+    
+    <link rel="stylesheet" href="{% static 'css/style.css' %}"/>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    
+    <link rel="icon" href="{% static 'images/black_b_logo.png' %}" type="image/png">
+    
+    {% block head_extra %}{% endblock %}
+</head>
+<body data-lang="en">
+    <div id="loading-screen" class="loading-screen">
+        <div class="loading-content">
+            <h1 class="EN">LUNOTECH</h1>
+            <div class="loading-bar-container">
+                <div id="loading-bar" class="loading-bar"></div>
+            </div>
+        </div>
+    </div>
+
+    <header class="header">
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo-img">
+                </div>
+
+                <div class="nav-items">
+                    <a class="nav-item {% if request.resolver_match.url_name == 'home' %}active{% endif %}" href="{% url 'home' %}">Home</a>
+                    <a class="nav-item" href="{% url 'home' %}#about">About</a>
+                    <a class="nav-item" href="{% url 'home' %}#services">Services</a>
+                    <a class="nav-item {% if request.resolver_match.url_name == 'blog_list' %}active{% endif %}" href="{% url 'blog_list' %}">Blog</a>
+                    
+                    <div class="dropdown">
+                        <button class="dropdown-trigger">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                <path d="M2 12h20"></path>
+                            </svg>
+                            <span>English</span>
+                            <svg class="chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"></polyline></svg>
+                        </button>
+                        <div class="dropdown-content">
+                            <div class="dropdown-item EN">English</div>
+                            <div class="dropdown-item">فارسی</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="desktop-actions">
+                    <a href="{% url 'contact' %}"><button class="contact-btn">Contact Us</button></a>
+                </div>
+
+                <button class="mobile-menu-btn menu-toggle">
+                    <svg class="menu-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+                    <svg class="close-icon hidden" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <div class="mobile-overlay"></div>
+    <div class="mobile-menu">
+        <div class="mobile-nav-items">
+            <a class="nav-item" href="{% url 'home' %}">Home</a>
+            <a class="nav-item" href="{% url 'blog_list' %}">Blog</a>
+            <a class="nav-item" href="{% url 'contact' %}">Contact</a>
+            
+            <div class="mobile-dropdown-trigger">
+                <span>English</span>
+                <div class="mobile-dropdown-content">
+                    <div class="mobile-dropdown-item EN">English</div>
+                    <div class="mobile-dropdown-item">فارسی</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% block content %}{% endblock %}
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-main">
+                <div class="cta-section">
+                    <p class="cta-text">HAVE A PROJECT IN MIND?</p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">LinkedIn</a>
+                        <a href="#" class="social-link">GitHub</a>
+                        <a href="#" class="social-link">Telegram</a>
+                    </div>
+                </div>
+                <div class="background-text">
+                    <h2 class="large-text">LUNOTECH</h2>
+                </div>
+                <div class="footer-credits-content">
+                    <span>Development by</span>
+                    <span class="credit-name">Arash & Amir</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    
+    {% block body_extra %}{% endblock %}
+</body>
+</html>
