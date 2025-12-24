@@ -5,7 +5,12 @@
 <main class="flex-1">
   
   <section class="hero-section" id="home">
-    <div class="canvas-container" id="canvas-container"></div>
+    <div class="canvas-container" 
+         id="canvas-container"
+         data-moon-url="{% static 'images/moon.jpg' %}"
+         data-mountain-url="{% static 'images/mountain.png' %}">
+    </div>
+    
     <div class="hero-content">
       <div class="hero-text">
         <h1 class="hero-title" data-i18n="hero_title">Innovation beyond the digital frontier</h1>
@@ -20,7 +25,8 @@
   </section>
 
   <section class="about-section" id="about">
-    <div class="about-container">
+      {% include "partials/about_content.html" if exists else "..." %} 
+      <div class="about-container">
         <div class="about-content-grid">
             <div class="about-text-content">
                 <p class="about-tagline" data-i18n="about_section.tagline">Who We Are</p>
@@ -113,4 +119,9 @@
   </section>
 
 </main>
+{% endblock %}
+
+{% block body_extra %}
+  <script src="{% static 'js/services.js' %}"></script>
+  <script src="{% static 'js/home.js' %}"></script>
 {% endblock %}
