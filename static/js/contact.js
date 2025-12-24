@@ -2,7 +2,7 @@
 
 /**
  * ContactFormManager Class
- * Handles client-side validation and submission states for the contact form.
+ * Handles client-side validation, submission states, and visibility animations for the contact form.
  */
 class ContactFormManager {
   constructor() {
@@ -17,6 +17,20 @@ class ContactFormManager {
 
   init() {
     this.bindEvents();
+    this.revealContent();
+  }
+
+  /**
+   * Reveals the contact form and info container by adding the 'is-visible' class.
+   * This triggers the CSS transition to change opacity from 0 to 1.
+   */
+  revealContent() {
+    setTimeout(() => {
+      const elements = document.querySelectorAll('.contact-form-container, .contact-info-container');
+      elements.forEach(el => {
+        el.classList.add('is-visible');
+      });
+    }, 100);
   }
 
   bindEvents() {
